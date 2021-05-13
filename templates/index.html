@@ -13,7 +13,7 @@
                     <tr>
                         {% for cell in row %}
                             {% if cell|length == 1 %}
-                                <td class="centered"><b>{{cell}}</b></td>
+                                <td class="centered"><strong>{{cell}}</strong></td>
                             {% else %}
                                 <td class="empty"><button value="{{cell}}" disabled>{{cell}}</button></td>
                             {% endif %}
@@ -33,6 +33,9 @@
                     <button class="menu">Start Game</button>
                 </section>
             </form>
+            <section class="instructions">
+                <h3>Instructions could go here...</h3>
+            </section>
         </section>
     </section>
 {% endblock %}

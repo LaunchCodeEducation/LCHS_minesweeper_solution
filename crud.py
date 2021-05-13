@@ -19,6 +19,15 @@ def execute_query(query_string):
     db.close()
     return results
 
+def record_mines(coords):
+    counter = 1
+    for cell in coords:
+        sql_query = f"INSERT INTO mines (coordinates) VALUES ('{cell}')"
+        execute_query(sql_query)
+        sql_query = f"UPDATE map SET mine_id = {counter} WHERE coordinates = '{cell}'"
+        execute_query(sql_query)
+        counter += 1
+
 def count_mines():
     sql_query = "SELECT coordinates FROM map"
     cells = execute_query(sql_query)
@@ -34,7 +43,7 @@ def check_surroundings(cell):
         for col_change in range(-1, 2):
             check_column = column + col_change
             location = check_row + str(check_column)
-            sql_query = f"SELECT * FROM mines WHERE coordinates = '{location}'"
+            sql_query = f"SELECT mine_id FROM mines WHERE coordinates = '{location}'"
             mined = execute_query(sql_query)
             if mined:
                 count += 1
@@ -42,12 +51,3 @@ def check_surroundings(cell):
     session.modified = True
     sql_query = f"UPDATE map SET surr_mines = {count} WHERE coordinates = '{cell}'"
     execute_query(sql_query)
-
-def record_mines(coords):
-    counter = 1
-    for cell in coords:
-        sql_query = f"INSERT INTO mines (coordinates) VALUES ('{cell}')"
-        execute_query(sql_query)
-        sql_query = f"UPDATE map SET mine_id = {counter} WHERE coordinates = '{cell}'"
-        execute_query(sql_query)
-        counter += 1
