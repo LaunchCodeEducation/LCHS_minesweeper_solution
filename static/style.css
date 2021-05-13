@@ -94,3 +94,17 @@ table {
     background-color: red;
     text-align: center;
 }
+
+.miss {
+    background-color: white;
+}
+
+.form-section {
+    display: inline-block;
+    /* text-align: center; */
+    vertical-align: top;
+}
+
+.p_ship {
+    background-color: lightblue;
+}

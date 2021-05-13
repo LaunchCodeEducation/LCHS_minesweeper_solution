@@ -22,10 +22,12 @@
                         {% for cell in row %}
                             {% if cell|length == 1 %}
                                 <td class="centered"><b>{{cell}}</b></td>
-                            {% elif cell[0] in session['cells'] %}
-                                <td class="ship"><button type="submit" value="{{cell[0]}}" disabled>{{cell[0]}}</button></td>
+                            {% elif cell in session['hits'] %}
+                                <td class="ship"><button type="submit" value="{{cell}}" name="guess" disabled>{{cell}}</button></td>
+                            {% elif cell in session['misses'] %}
+                                <td class="miss"><button type="submit" value="{{cell}}" name="guess" disabled>{{cell}}</button></td>
                             {% else %}
-                                <td class="{{cell[1]}}"><button type="submit" value="{{cell[0]}}">{{cell[0]}}</button></td>
+                                <td class="empty"><button type="submit" value="{{cell}}" name="guess">{{cell}}</button></td>
                             {% endif %}
                         {% endfor %}
                     </tr>
