@@ -5,17 +5,17 @@
         <section class="form-section">
             <table>
                 <tr>
-                    {% for column in columns %}
+                    {% for column in session['columns'] %}
                         <th class="centered">{{column}}</th>
                     {% endfor %}
                 </tr>
-                {% for row in rows %}
+                {% for row in session['rows'] %}
                     <tr>
                         {% for cell in row %}
                             {% if cell|length == 1 %}
                                 <td class="centered"><b>{{cell}}</b></td>
                             {% else %}
-                                <td class="empty"><button type="submit" value="{{cell}}" name="guess" disabled>{{cell}}</button></td>
+                                <td class="empty"><button value="{{cell}}" disabled>{{cell}}</button></td>
                             {% endif %}
                         {% endfor %}
                     </tr>
@@ -27,7 +27,7 @@
                 <h2>Main Menu</h2>
                 <label>
                     Select the number of mines: <br>
-                    <input class="menu" name="num_mines" type="number" min="5" max="20" placeholder="5 - 20" required/>
+                    <input class="menu" name="num_mines" type="number" min="5" max="25" placeholder="5 - 25"/>
                 </label>
                 <section class="centered">
                     <button class="menu">Start Game</button>

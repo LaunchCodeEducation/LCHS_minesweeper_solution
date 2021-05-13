@@ -2,5 +2,10 @@
     "cSpell.ignoreWords": [
         "surr",
         "xabcdefghijy"
-    ]
+    ],
+    "python.pythonPath": "game-env/bin/python",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": false,
+    "python.linting.flake8Enabled": false,
+    "python.linting.pylamaEnabled": false
 }

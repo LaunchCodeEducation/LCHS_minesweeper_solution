@@ -14,13 +14,13 @@
         <section class="centered">
             <label><input type="checkbox" name="flagged"/>Flag Mine</label>
         </section>
-        <table>
+        <table autofocus>
             <tr>
-                {% for column in columns %}
+                {% for column in session['columns'] %}
                     <th class="centered">{{column}}</th>
                 {% endfor %}
             </tr>
-            {% for row in rows %}
+            {% for row in session['rows'] %}
                 <tr>
                     {% for cell in row %}
                         {% if cell|length == 1 %}
