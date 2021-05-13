@@ -1,0 +1,96 @@
+h1 {
+    text-align: center;
+    text-decoration: underline;
+    margin: 5px;
+    font-size: 3vw;
+}
+
+h2, h3 {
+    text-align: center;
+    margin: 10px;
+}
+
+h2 {
+    font-size: 2vw;
+}
+
+h4 {
+    color: brown;
+}
+
+form {
+    display: inline-block;
+    /* border: 1px solid black; */
+    border-radius: 4%;
+    margin: 10px;
+    padding: 10px;
+    text-align: left;
+    min-width: 40%;
+}
+
+label {
+    display: block;
+    margin: 5px;
+    font-size: larger;
+}
+
+input {
+    margin: 5px;
+}
+
+p, li {
+    margin: 5px;
+}
+
+button {
+    color: white;
+    background-color: blue;
+    font-size: larger;
+    border-radius: 20%;
+    margin: 5px;
+}
+
+button.clear {
+    color: black;
+    background-color: palegoldenrod;
+}
+
+.centered {
+    text-align: center;
+}
+
+.error {
+    color: red;
+}
+
+.success {
+    color: purple;
+}
+
+.table-col-names {
+    color: green;
+    font-style: italic;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 10px;
+    margin: 5px;
+    text-align: left;
+}
+
+table {
+    display: inline-table;
+    max-width: 90%;
+}
+
+.empty {
+    background-color: blue;
+    text-align: center;
+}
+
+.ship {
+    background-color: red;
+    text-align: center;
+}
