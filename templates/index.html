@@ -1,15 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width">
-        <title>Game Test Page</title>
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-    </head>
-</head>
-<body>
-    <h1>Play Minesweeper</h1>
+{% extends "base.html" %}
+
+{% block content %}
     <section class="centered">
         <section class="form-section">
             <table>
@@ -38,23 +29,10 @@
                     Select the number of mines: 
                     <input name="num_mines" type="number" min="5" max="20" placeholder="5 - 20" required/>
                 </label>
-
-                <!-- <label>
-                    <input type="radio" name="choice" value="new" required />
-                    Start New Game With 
-                    <input name="num_mines" type="number" min="5" max="20" placeholder="5 - 20"/>
-                    Mines
-                </label>
-                <h3>OR</h3>
-                <label>
-                    <input type="radio" name="choice" value="resume" required />
-                    Resume Current Game
-                </label> -->
                 <section class="centered">
                     <button class="menu">Start Game</button>
                 </section>
             </form>
         </section>
     </section>
-</body>
-</html>
+{% endblock %}

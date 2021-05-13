@@ -133,7 +133,8 @@ def index():
         session['hit_mine'] = False
     columns = make_columns()
     rows = make_rows()
-    return render_template("index.html", columns = columns, rows = rows)
+    return render_template("index.html", columns = columns, rows = rows,
+        page_title = "Play Minesweeper")
 
 @app.route('/play', methods=['GET', 'POST'])
 def play():
@@ -150,7 +151,8 @@ def play():
 
     columns = make_columns()
     rows = make_rows()
-    return render_template("mines.html", columns = columns, rows = rows)
+    return render_template("mines.html", columns = columns, rows = rows,
+        page_title = "Mines Remaining")
 
 if __name__ == '__main__':
     app.run()
