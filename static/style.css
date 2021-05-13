@@ -20,12 +20,15 @@ h4 {
 
 form {
     display: inline-block;
-    /* border: 1px solid black; */
     border-radius: 4%;
     margin: 10px;
     padding: 10px;
     text-align: left;
     min-width: 40%;
+}
+
+form.menu {
+    border: 1px solid black;
 }
 
 label {
@@ -34,8 +37,10 @@ label {
     font-size: larger;
 }
 
-input {
+input.menu {
     margin: 5px;
+    font-size: large;
+    max-width: 50%;
 }
 
 p, li {
@@ -50,9 +55,10 @@ button {
     margin: 5px;
 }
 
-button.clear {
+button.menu {
+    background-color: orange;
+    border-radius: 4%;
     color: black;
-    background-color: palegoldenrod;
 }
 
 .centered {
@@ -61,15 +67,6 @@ button.clear {
 
 .error {
     color: red;
-}
-
-.success {
-    color: purple;
-}
-
-.table-col-names {
-    color: green;
-    font-style: italic;
 }
 
 table, th, td {
@@ -81,7 +78,7 @@ table, th, td {
 
 table {
     display: inline-table;
-    min-width: 90%;
+    min-width: 50%;
     table-layout: fixed;
 }
 
@@ -110,10 +107,6 @@ th, td {
     vertical-align: top;
 }
 
-.p_ship {
-    background-color: lightblue;
-}
-
 .flag {
     background-color: goldenrod;
     text-align: center;
@@ -122,10 +115,4 @@ th, td {
 .win, .blast {
     font-size: 72px;
     color: red;
-}
-
-.menu {
-    background-color: orange;
-    border-radius: 4%;
-    color: black;
 }

@@ -2,7 +2,6 @@
 
 {% block content %}
 <header class="centered">
-    <h2>{{session['num_mines']}}</h2>
     <button class="menu" form="game-board" name="guess" value="restart">New Game</button>
     {% if session['num_mines'] == 0 %}
         <h1 class="win">YOU WIN!!!!!</h1>

@@ -1,0 +1,61 @@
+import random
+import string
+from crud import *
+
+def reset_board():
+    sql_query = "UPDATE map SET mine_id = NULL, guessed = NULL"
+    execute_query(sql_query)
+    sql_query = "DELETE FROM mines WHERE mine_id >= 1"
+    execute_query(sql_query)
+
+def make_columns():
+    numbers = ['']
+    for index in range(10):
+        numbers.append(index+1)
+    return numbers.copy()
+
+def make_rows():
+    rows = []
+    for index in range(10):
+        row = []
+        for entry in range(11):
+            letter = string.ascii_uppercase[index]
+            if entry == 0:
+                row.append(letter)
+            else:
+                row.append(letter + str(entry))
+        rows.append(row)
+    return rows.copy()
+
+def place_mines(amount):
+    mines = []
+    while len(mines) < amount:
+        row = random.choice(string.ascii_uppercase[0:10])
+        column = random.randint(1, 10)
+        location = row + str(column)
+        if location not in mines:
+            mines.append(location)
+    mines.sort()
+    record_mines(mines)
+    count_mines()
+    return mines.copy()
+
+def check_guess(guess, flag):
+    safe_guess = True
+    if flag:
+        sql_query = f"UPDATE mines SET guessed = True WHERE coordinates = '{guess}'"
+        execute_query(sql_query)
+        session['flags'].append(guess)
+        session['num_mines'] -= 1
+    else:
+        sql_query = f"SELECT * FROM map WHERE coordinates = '{guess}' AND mine_id IS NULL"
+        result = execute_query(sql_query)
+        if result:
+            sql_query = f"UPDATE map SET guessed = True WHERE coordinates = '{guess}'"
+            execute_query(sql_query)
+            sql_query = f"SELECT surr_mines FROM map WHERE coordinates = '{guess}'"
+            session['guesses'].append(guess)
+        else:
+            safe_guess = False        
+    session.modified = True
+    return safe_guess
