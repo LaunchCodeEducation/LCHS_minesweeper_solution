@@ -9,8 +9,9 @@
     </head>
 </head>
 <body>
+    <h1>Play Minesweeper</h1>
     <section class="centered">
-        <form action="/" method="POST">
+        <section class="form-section">
             <table>
                 <tr>
                     {% for column in columns %}
@@ -22,18 +23,38 @@
                         {% for cell in row %}
                             {% if cell|length == 1 %}
                                 <td class="centered"><b>{{cell}}</b></td>
-                            {% elif cell in session['hits'] %}
-                                <td class="ship"><button type="submit" value="{{cell}}" name="guess" disabled>{{cell}}</button></td>
-                            {% elif cell in session['misses'] %}
-                                <td class="miss"><button type="submit" value="{{cell}}" name="guess" disabled>{{cell}}</button></td>
                             {% else %}
-                                <td class="empty"><button type="submit" value="{{cell}}" name="guess">{{cell}}</button></td>
+                                <td class="empty"><button type="submit" value="{{cell}}" name="guess" disabled>{{cell}}</button></td>
                             {% endif %}
                         {% endfor %}
                     </tr>
                 {% endfor %}
             </table>
-        </form>
+        </section>
+        <section class="form-section">
+            <form action="/" method="POST">
+                <h2>Main Menu</h2>
+                <label>
+                    Select the number of mines: 
+                    <input name="num_mines" type="number" min="5" max="20" placeholder="5 - 20" required/>
+                </label>
+
+                <!-- <label>
+                    <input type="radio" name="choice" value="new" required />
+                    Start New Game With 
+                    <input name="num_mines" type="number" min="5" max="20" placeholder="5 - 20"/>
+                    Mines
+                </label>
+                <h3>OR</h3>
+                <label>
+                    <input type="radio" name="choice" value="resume" required />
+                    Resume Current Game
+                </label> -->
+                <section class="centered">
+                    <button class="menu">Start Game</button>
+                </section>
+            </form>
+        </section>
     </section>
 </body>
 </html>

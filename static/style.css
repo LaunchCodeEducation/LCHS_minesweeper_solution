@@ -95,7 +95,7 @@ th, td {
     text-align: center;
 }
 
-.ship {
+.oops {
     background-color: red;
     text-align: center;
 }
@@ -106,7 +106,7 @@ th, td {
 
 .form-section {
     display: inline-block;
-    /* text-align: center; */
+    text-align: center;
     vertical-align: top;
 }
 
@@ -122,4 +122,10 @@ th, td {
 .win, .blast {
     font-size: 72px;
     color: red;
+}
+
+.menu {
+    background-color: orange;
+    border-radius: 4%;
+    color: black;
 }

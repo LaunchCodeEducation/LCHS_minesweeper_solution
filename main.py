@@ -119,19 +119,34 @@ def check_guess(guess, flag):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
+        session['num_mines'] = int(request.form['num_mines'])
+        if session['num_mines'] == 0:
+            session['num_mines'] = 10
+        reset_board()
+        session['mines'] = place_mines(session['num_mines'])
+        return redirect('/play')
+    else:
+        reset_board()
+        session['flags'] = []
+        session['guesses'] = []
+        session['mine_counts'] = {}
+        session['hit_mine'] = False
+    columns = make_columns()
+    rows = make_rows()
+    return render_template("index.html", columns = columns, rows = rows)
+
+@app.route('/play', methods=['GET', 'POST'])
+def play():
+    if request.method == 'POST':
         guess = request.form['guess']
+        if guess.lower() == 'restart':
+            return redirect('/')
         flagged = request.form.get('flagged')
         safe_guess = check_guess(guess, flagged)
         if not safe_guess:
             session['hit_mine'] = True
     else:
-        reset_board()
-        session['num_mines'] = 10
-        session['flags'] = []
-        session['guesses'] = []
-        session['mine_counts'] = {}
-        session['hit_mine'] = False
-        session['mines'] = place_mines(session['num_mines'])
+        pass
 
     columns = make_columns()
     rows = make_rows()

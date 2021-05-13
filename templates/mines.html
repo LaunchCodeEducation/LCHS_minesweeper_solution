@@ -9,8 +9,21 @@
     </head>
 </head>
 <body>
-    <section class="centered form-section">
-        <form action="/" method="POST">
+    <h1>Mines Remaining</h1>
+    <header class="centered">
+        <h2>{{session['num_mines']}}</h2>
+        <button class="menu" form="game-board" name="guess" value="restart">New Game</button>
+        {% if session['num_mines'] == 0 %}
+            <h1 class="win">YOU WIN!!!!!</h1>
+        {% elif session['hit_mine'] %}
+            <h1 class="blast">KA-BOOM!!!</h1>
+        {% endif %}
+    </header>
+    <section class="centered">
+        <form id="game-board" action="/play" method="POST">
+            <section class="centered">
+                <label><input type="checkbox" name="flagged"/>Flag Mine</label>
+            </section>
             <table>
                 <tr>
                     {% for column in columns %}
@@ -27,7 +40,7 @@
                             {% elif cell in session['flags'] %}
                                 <td class="flag"><button type="submit" value="{{cell}}" name="guess" disabled>{{cell}}</button></td>
                             {% elif session['hit_mine'] and cell in session['mines'] %}
-                                <td class="ship"><button type="submit" value="{{cell}}" name="guess" disabled>{{cell}}</button></td>
+                                <td class="oops"><button type="submit" value="{{cell}}" name="guess" disabled>{{cell}}</button></td>
                             {% elif session['hit_mine'] %}
                                 <td class="empty"><button type="submit" value="{{cell}}" name="guess" disabled>{{cell}}</button></td>
                             {% else %}
@@ -39,17 +52,7 @@
                     </tr>
                 {% endfor %}
             </table>
-            <label><input type="checkbox" name="flagged"/>Flag Mine</label>
         </form>
-    </section>
-    <section class="form-section">
-        <h2>Mines Remaining</h2>
-        <h3>{{session['num_mines']}}</h3>
-        {% if session['num_mines'] == 0 %}
-            <h1 class="win">YOU WIN!!!!!</h1>
-        {% elif session['hit_mine'] %}
-            <h1 class="blast">KA-BOOM!!!</h1>
-        {% endif %}
     </section>
 </body>
 </html>
