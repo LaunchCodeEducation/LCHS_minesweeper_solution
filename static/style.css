@@ -46,7 +46,7 @@ button {
     color: white;
     background-color: blue;
     font-size: larger;
-    border-radius: 20%;
+    border-radius: 100%;
     margin: 5px;
 }
 
@@ -77,12 +77,17 @@ table, th, td {
     border-collapse: collapse;
     padding: 10px;
     margin: 5px;
-    text-align: left;
 }
 
 table {
     display: inline-table;
-    max-width: 90%;
+    min-width: 90%;
+    table-layout: fixed;
+}
+
+th, td {
+    min-width: 55px;
+    table-layout: fixed;
 }
 
 .empty {
@@ -107,4 +112,14 @@ table {
 
 .p_ship {
     background-color: lightblue;
+}
+
+.flag {
+    background-color: goldenrod;
+    text-align: center;
+}
+
+.win, .blast {
+    font-size: 72px;
+    color: red;
 }

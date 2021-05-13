@@ -8,7 +8,9 @@ app.config['DEBUG'] = True
 app.secret_key = 'K>~EEAnH_x,Z{q.43;NmyQiNz1^Yr7'
 
 def reset_board():
-    sql_query = f"UPDATE cells SET ship_id = NULL, empty = True"
+    sql_query = "UPDATE map SET mine_id = NULL, guessed = NULL"
+    execute_query(sql_query)
+    sql_query = "DELETE FROM mines WHERE mine_id >= 1"
     execute_query(sql_query)
 
 def execute_query(query_string):
@@ -48,132 +50,92 @@ def make_rows():
         rows.append(row)
     return rows.copy()
 
-def place_ship(ship_id, ship_length):
-    valid_placement = False
-    while not valid_placement:
-        orientation = random.randint(0, 1)
-        if orientation: # Horizontal orientation
-            row = random.choice(string.ascii_uppercase[0:10])
-            start_column = random.randint(1, 11-ship_length)
-            cells = []
-            for index in range(ship_length):
-                column = start_column + index
-                cells.append(row + str(column))
-        else:
-            column = random.randint(1, 10)
-            start_row = random.randint(0, 10-ship_length)
-            cells = []
-            for index in range(ship_length):
-                row = string.ascii_uppercase[start_row + index]
-                cells.append(row + str(column))
-        valid_placement = record_postion(cells, ship_id)
-    return cells.copy()
+def place_mines(amount):
+    mines = []
+    while len(mines) < amount:
+        row = random.choice(string.ascii_uppercase[0:10])
+        column = random.randint(1, 10)
+        location = row + str(column)
+        if location not in mines:
+            mines.append(location)
+    mines.sort()
+    record_mines(mines)
+    count_mines()
+    return mines.copy()
 
-def record_postion(coords, ship):
-    for cell in coords:
-        sql_query = f"SELECT ship_id FROM cells WHERE coordinates = '{cell}' AND empty = False"
-        check_coord = execute_query(sql_query)
-        if check_coord:
-            return False
-    for cell in coords:
-        sql_query = f"UPDATE cells SET ship_id = {ship}, empty = False WHERE coordinates = '{cell}'"
-        execute_query(sql_query)
-    return True
+def count_mines():
+    sql_query = "SELECT coordinates FROM map"
+    cells = execute_query(sql_query)
+    for cell in cells:
+        check_surroundings(cell[0])
 
-def check_guess(guess):
-    sql_query = f"SELECT ship_id FROM cells WHERE coordinates = '{guess}' AND empty = False"
-    is_hit = execute_query(sql_query)
-    if is_hit:
-        sql_query = f"UPDATE cells SET guessed = 'Hit' WHERE coordinates = '{guess}'"
-        session['hits'].append(guess)
-    else:
-        sql_query = f"UPDATE cells SET guessed = 'Miss' WHERE coordinates = '{guess}'"
-        session['misses'].append(guess)
+def check_surroundings(cell):
+    count = 0
+    rows = 'XABCDEFGHIJY'
+    row = rows.find(cell[0])
+    column = int(cell[1:])
+    for check_row in rows[row-1:row+2]:
+        for col_change in range(-1, 2):
+            check_column = column + col_change
+            location = check_row + str(check_column)
+            sql_query = f"SELECT * FROM mines WHERE coordinates = '{location}'"
+            mined = execute_query(sql_query)
+            if mined:
+                count += 1
+    session['mine_counts'][cell] = count
     session.modified = True
+    sql_query = f"UPDATE map SET surr_mines = {count} WHERE coordinates = '{cell}'"
     execute_query(sql_query)
 
-def player_ship(ship_name, orientation, start_cell):
-    start_row = start_cell[0]
-    start_column = int(start_cell[1:])
-    cells = []
-    fleet = ['Destroyer', 'Submarine', 'Crusier', 'Battleship', 'Carrier']
-    if ship_name == 'Destroyer':
-        ship_length = 2
-    elif ship_name == 'Submarine' or ship_name == 'Crusier':
-        ship_length = 3
-    elif ship_name == 'Battleship':
-        ship_length = 4
+def record_mines(coords):
+    counter = 1
+    for cell in coords:
+        sql_query = f"INSERT INTO mines (coordinates) VALUES ('{cell}')"
+        execute_query(sql_query)
+        sql_query = f"UPDATE map SET mine_id = {counter} WHERE coordinates = '{cell}'"
+        execute_query(sql_query)
+        counter += 1
+
+def check_guess(guess, flag):
+    safe_guess = True
+    if flag:
+        sql_query = f"UPDATE mines SET guessed = True WHERE coordinates = '{guess}'"
+        execute_query(sql_query)
+        session['flags'].append(guess)
+        session['num_mines'] -= 1
     else:
-        ship_length = 5
-    if orientation: # Horizontal orientation
-        if start_column + ship_length - 1 > 10:
-            return False
-        for index in range(ship_length):
-            column = start_column + index
-            location = start_row + str(column)
-            if location not in session['p_ships']:
-                cells.append(location)
-            else:
-                return False
-    else:
-        col_index = string.ascii_uppercase.find(start_row)
-        if col_index + ship_length -1 > string.ascii_uppercase.find('J'):
-            return False
-        for index in range(ship_length):
-            start = string.ascii_uppercase.find(start_row)
-            row = string.ascii_uppercase[start + index]
-            location = row + str(start_column)
-            if location not in session['p_ships']:
-                cells.append(location)
-            else:
-                return False
-        # valid_placement = record_postion(cells, fleet.index(ship_name)+1)
-    session['p_fleet'].append(ship_name)
+        sql_query = f"SELECT * FROM map WHERE coordinates = '{guess}' AND mine_id IS NULL"
+        result = execute_query(sql_query)
+        if result:
+            sql_query = f"UPDATE map SET guessed = True WHERE coordinates = '{guess}'"
+            execute_query(sql_query)
+            sql_query = f"SELECT surr_mines FROM map WHERE coordinates = '{guess}'"
+            session['guesses'].append(guess)
+        else:
+            safe_guess = False        
     session.modified = True
-    return cells.copy()
+    return safe_guess
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         guess = request.form['guess']
-        check_guess(guess)
+        flagged = request.form.get('flagged')
+        safe_guess = check_guess(guess, flagged)
+        if not safe_guess:
+            session['hit_mine'] = True
     else:
         reset_board()
-        place_ship(1, 2)
-        place_ship(2, 3)
-        place_ship(3, 3)
-        place_ship(4, 4)
-        place_ship(5, 5)
-        session['hits'] = []
-        session['misses'] = []
-    columns = make_columns()
-    rows = make_rows()
-    return render_template("index.html", columns = columns, rows = rows)
+        session['num_mines'] = 10
+        session['flags'] = []
+        session['guesses'] = []
+        session['mine_counts'] = {}
+        session['hit_mine'] = False
+        session['mines'] = place_mines(session['num_mines'])
 
-@app.route('/player_board', methods=['GET', 'POST'])
-def player_board():
-    if request.method == 'POST':
-        new_ship = request.form['new_ship']
-        orientation = int(request.form['orientation'])
-        start_cell = request.form['start_cell'].upper()
-        result = player_ship(new_ship, orientation, start_cell)
-        if result: 
-            for cell in result:
-                session['p_ships'].append(cell)
-            session.modified = True
-            feedback = 'Ship placed!'
-        else:
-           feedback = "Invalid placement!"
-        print(session['p_fleet'])
-    else:
-        session['p_ships'] = []
-        session['p_fleet'] = []
-        feedback = ''
-    ships = ['Destroyer','Submarine', 'Crusier','Battleship', 'Carrier']
     columns = make_columns()
     rows = make_rows()
-    return render_template("player_board.html", columns = columns, rows = rows, ships=ships,
-        feedback = feedback)
+    return render_template("mines.html", columns = columns, rows = rows)
 
 if __name__ == '__main__':
     app.run()

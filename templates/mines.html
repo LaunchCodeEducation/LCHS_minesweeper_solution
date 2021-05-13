@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <title>Game Test Page</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+</head>
+<body>
+    <section class="centered form-section">
+        <form action="/" method="POST">
+            <table>
+                <tr>
+                    {% for column in columns %}
+                        <th class="centered">{{column}}</th>
+                    {% endfor %}
+                </tr>
+                {% for row in rows %}
+                    <tr>
+                        {% for cell in row %}
+                            {% if cell|length == 1 %}
+                                <td class="centered"><b>{{cell}}</b></td>
+                            {% elif cell in session['guesses'] %}
+                                <td class="miss"><h3>{{session['mine_counts'][cell]}}</h3></td>
+                            {% elif cell in session['flags'] %}
+                                <td class="flag"><button type="submit" value="{{cell}}" name="guess" disabled>{{cell}}</button></td>
+                            {% elif session['hit_mine'] and cell in session['mines'] %}
+                                <td class="ship"><button type="submit" value="{{cell}}" name="guess" disabled>{{cell}}</button></td>
+                            {% elif session['hit_mine'] %}
+                                <td class="empty"><button type="submit" value="{{cell}}" name="guess" disabled>{{cell}}</button></td>
+                            {% else %}
+                                <td class="empty">
+                                    <button type="submit" value="{{cell}}" name="guess">{{cell}}</button>
+                                </td>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+            <label><input type="checkbox" name="flagged"/>Flag Mine</label>
+        </form>
+    </section>
+    <section class="form-section">
+        <h2>Mines Remaining</h2>
+        <h3>{{session['num_mines']}}</h3>
+        {% if session['num_mines'] == 0 %}
+            <h1 class="win">YOU WIN!!!!!</h1>
+        {% elif session['hit_mine'] %}
+            <h1 class="blast">KA-BOOM!!!</h1>
+        {% endif %}
+    </section>
+</body>
+</html>
