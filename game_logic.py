@@ -7,6 +7,15 @@ def reset_board():
     execute_query(sql_query)
     sql_query = "DELETE FROM mines WHERE mine_id >= 1"
     execute_query(sql_query)
+    session['num_mines'] = 0
+    session['flags'] = []
+    session['guesses'] = []
+    session['mine_counts'] = {}
+    session['hit_mine'] = False
+    session['mines'] = []
+    if 'columns' not in session:
+        session['columns'] = make_columns()
+        session['rows'] = make_rows()
 
 def make_columns():
     numbers = ['']
@@ -18,12 +27,12 @@ def make_rows():
     rows = []
     for index in range(10):
         row = []
-        for entry in range(11):
+        for number in range(11):
             letter = string.ascii_uppercase[index]
             if entry == 0:
                 row.append(letter)
             else:
-                row.append(letter + str(entry))
+                row.append(letter + str(number))
         rows.append(row)
     return rows.copy()
 

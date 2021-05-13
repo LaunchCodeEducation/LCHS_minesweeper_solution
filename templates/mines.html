@@ -2,7 +2,7 @@
 
 {% block content %}
 <header class="centered">
-    <button class="menu" form="game-board" name="guess" value="restart">New Game</button>
+    <button class="menu" form="game-board" name="guess" value="">New Game</button>
     {% if session['num_mines'] == 0 %}
         <h1 class="win">YOU WIN!!!!!</h1>
     {% elif session['hit_mine'] %}
@@ -24,7 +24,7 @@
                 <tr>
                     {% for cell in row %}
                         {% if cell|length == 1 %}
-                            <td class="centered"><b>{{cell}}</b></td>
+                            <td class="centered"><strong>{{cell}}</strong></td>
                         {% elif cell in session['guesses'] %}
                             <td class="miss"><h3>{{session['mine_counts'][cell]}}</h3></td>
                         {% elif cell in session['flags'] %}
