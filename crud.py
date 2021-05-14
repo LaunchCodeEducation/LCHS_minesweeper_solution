@@ -45,7 +45,7 @@ def check_surroundings(cell):
             location = check_row + str(check_column)
             sql_query = f"SELECT mine_id FROM mines WHERE coordinates = '{location}'"
             mined = execute_query(sql_query)
-            if mined:
+            if mined and location != cell:
                 count += 1
     session['mine_counts'][cell] = count
     session.modified = True

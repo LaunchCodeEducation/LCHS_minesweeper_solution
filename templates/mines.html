@@ -31,7 +31,7 @@
                             <td class="miss"><h3>{{session['mine_counts'][cell]}}</h3></td>
                         {% elif session['hit_mine'] and cell in session['mines'] %}
                             <td class="oops"><button type="submit" value="{{cell}}" name="guess" disabled>{{cell}}</button></td>
-                        {% elif cell in session['flags'] and not session['hit_mine'] %}
+                        {% elif cell in session['flags'] %}
                             <td class="flag"><button type="submit" value="{{cell}}" name="guess">{{cell}}</button></td>
                         {% elif session['hit_mine'] %}
                             <td class="empty"><button type="submit" value="{{cell}}" name="guess" disabled>{{cell}}</button></td>
