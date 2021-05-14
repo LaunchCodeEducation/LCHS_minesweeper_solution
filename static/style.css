@@ -104,7 +104,12 @@ th, td {
     text-align: center;
 }
 
-.win, .blast {
+.win {
+    font-size: 72px;
+    color: purple;
+}
+
+.blast {
     font-size: 72px;
     color: red;
 }
