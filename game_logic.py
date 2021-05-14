@@ -29,7 +29,7 @@ def make_rows():
         row = []
         for number in range(11):
             letter = string.ascii_uppercase[index]
-            if entry == 0:
+            if number == 0:
                 row.append(letter)
             else:
                 row.append(letter + str(number))
