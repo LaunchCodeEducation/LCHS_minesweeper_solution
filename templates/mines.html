@@ -3,8 +3,10 @@
 {% block content %}
 <header class="centered">
     <button class="menu" form="game-board" name="guess" value="">New Game</button>
-    {% if session['num_mines'] == 0 %}
+    {% if session['num_mines'] == 0 and session['mines']|length == 0 %}
         <h1 class="win">YOU WIN!!!!!</h1>
+    {% elif session['num_mines'] == 0 %}
+        <h2 class="error">Oops! One or more of your flags is incorrect.</h2>
     {% elif session['hit_mine'] %}
         <h1 class="blast">KA-BOOM!!!</h1>
     {% endif %}
@@ -14,7 +16,7 @@
         <section class="centered">
             <label><input type="checkbox" name="flagged"/>Flag Mine</label>
         </section>
-        <table autofocus>
+        <table>
             <tr>
                 {% for column in session['columns'] %}
                     <th class="centered">{{column}}</th>
@@ -27,10 +29,10 @@
                             <td class="centered"><strong>{{cell}}</strong></td>
                         {% elif cell in session['guesses'] %}
                             <td class="miss"><h3>{{session['mine_counts'][cell]}}</h3></td>
-                        {% elif cell in session['flags'] %}
-                            <td class="flag"><button type="submit" value="{{cell}}" name="guess" disabled>{{cell}}</button></td>
                         {% elif session['hit_mine'] and cell in session['mines'] %}
                             <td class="oops"><button type="submit" value="{{cell}}" name="guess" disabled>{{cell}}</button></td>
+                        {% elif cell in session['flags'] and not session['hit_mine'] %}
+                            <td class="flag"><button type="submit" value="{{cell}}" name="guess">{{cell}}</button></td>
                         {% elif session['hit_mine'] %}
                             <td class="empty"><button type="submit" value="{{cell}}" name="guess" disabled>{{cell}}</button></td>
                         {% else %}

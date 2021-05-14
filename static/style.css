@@ -14,21 +14,17 @@ h2 {
     font-size: 2vw;
 }
 
-h4 {
-    color: brown;
-}
-
 form {
     display: inline-block;
-    border-radius: 4%;
     margin: 10px;
     padding: 10px;
     text-align: left;
-    min-width: 40%;
+    /* min-width: 40%; */
 }
 
 form.menu {
     border: 1px solid black;
+    border-radius: 4%;
 }
 
 label {
@@ -41,10 +37,6 @@ input.menu {
     margin: 5px;
     font-size: large;
     max-width: 50%;
-}
-
-p, li {
-    margin: 5px;
 }
 
 button {
@@ -88,7 +80,7 @@ th, td {
 }
 
 .empty {
-    background-color: blue;
+    background-color: lightgray;
     text-align: center;
 }
 
@@ -115,4 +107,12 @@ th, td {
 .win, .blast {
     font-size: 72px;
     color: red;
+}
+
+.instructions {
+    background-color: beige;
+    height: 400px;
+    margin: 10px;
+    border: 1pt solid green;
+    border-radius: 4%;
 }
