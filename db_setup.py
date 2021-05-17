@@ -1,8 +1,4 @@
 import sqlite3
-import string
-
-rows = string.ascii_uppercase[0:10]
-columns = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 db = sqlite3.connect('game.db')
 cursor = db.cursor()
