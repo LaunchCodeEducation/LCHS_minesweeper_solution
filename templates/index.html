@@ -3,11 +3,39 @@
 {% block content %}
 <section class="centered">
     <section class="form-section">
-        <!-- Display an inactive game table here. -->
+        <table>
+            <tr>
+                {% for column in session['columns'] %}
+                    <th class="centered">{{column}}</th>
+                {% endfor %}
+            </tr>
+            {% for row in session['rows'] %}
+                <tr>
+                    {% for cell in row %}
+                        {% if cell|length == 1 %}
+                            <td class="centered"><strong>{{cell}}</strong></td>
+                        {% else %}
+                            <td class="empty"><button disabled>{{cell}}</button></td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
     </section>
     <section class="form-section">
-        <!-- Add the Main Menu form here. -->
-        <!-- Add an optional instructions section here. -->
+        <form class = "menu" action="/" method = "POST">
+            <h2>Main Menu</h2>
+            <label>
+                Select the number of mines: <br>
+                <input class="menu" type="number" name="num_mines" min="5" max="25" placeholder="5 - 25" />
+                <section class="centered">
+                    <button class="menu">Start Game</button>
+                </section>
+            </label>
+        </form>
+        <section class="instructions">
+            <h3>Instructions could go here...</h3>
+        </section>
     </section>
 </section>
 {% endblock %}
