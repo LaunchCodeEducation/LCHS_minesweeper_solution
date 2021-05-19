@@ -43,13 +43,14 @@ button {
     background-color: blue;
     font-size: larger;
     border-radius: 100%;
-    margin: 5px;
+    margin: 1px;
 }
 
 button.menu {
     background-color: orange;
     border-radius: 4%;
     color: black;
+    margin: 5px;
 }
 
 .centered {
