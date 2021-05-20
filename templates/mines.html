@@ -2,12 +2,31 @@
 
 {% block content %}
 <header class="centered">
-    <!-- Add header content here. -->
+    <button type="submit" form="game-board" class="menu" name="guess" value="">New Game</button>
 </header>
 <section class="centered">
     <form id="game-board" action="/play" method="POST">
-        <!-- Include Flag Mine checkbox. -->
-        <!-- Add the table (with active cell buttons) here. -->
+        <section class="centered">
+            <label><input type="checkbox" name="flagged" /> Flag Mine</label>
+        </section>
+        <table>
+            <tr>
+                {% for column in session['columns'] %}
+                    <th class="centered">{{column}}</th>
+                {% endfor %}
+            </tr>
+            {% for row in session['rows'] %}
+                <tr>
+                    {% for cell in row %}
+                        {% if cell|length == 1 %}
+                            <td class="centered"><strong>{{cell}}</strong></td>
+                        {% else %}
+                            <td class="empty"><button type="submit" name="guess" value="{{cell}}">{{cell}}</button></td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
     </form>
 </section>
 {% endblock %}
