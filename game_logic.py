@@ -3,7 +3,7 @@ import string
 from crud import *
 
 def reset_board():
-    sql_query = "UPDATE map SET mine_id = NULL, guessed = NULL, surr_mines = NULL"
+    sql_query = "UPDATE board SET mine_id = NULL, guessed = NULL, surr_mines = NULL"
     execute_query(sql_query)
     sql_query = "DELETE FROM mines WHERE mine_id >= 1"
     execute_query(sql_query)
@@ -60,13 +60,13 @@ def check_guess(guess, flag):
             session['mines'].remove(guess)
             session.modified = True
     else:
-        sql_query = f"SELECT * FROM map WHERE coordinates = '{guess}' and mine_id IS NULL"
+        sql_query = f"SELECT * FROM board WHERE coordinates = '{guess}' and mine_id IS NULL"
         no_mine = execute_query(sql_query)
         if no_mine:
             if guess in session['flags']:
                 session['flags'].remove(guess)
                 session['num_mines'] += 1
-            sql_query = f"UPDATE map SET guessed = True WHERE coordinates = '{guess}'"
+            sql_query = f"UPDATE board SET guessed = True WHERE coordinates = '{guess}'"
             execute_query(sql_query)
             session['guesses'].append(guess)
         else:

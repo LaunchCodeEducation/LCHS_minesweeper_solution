@@ -24,12 +24,12 @@ def record_mines(coords):
     for cell in coords:
         sql_query = f"INSERT INTO mines (coordinates) VALUES ('{cell}')"
         execute_query(sql_query)
-        sql_query = f"UPDATE map SET mine_id = {counter} WHERE coordinates = '{cell}'"
+        sql_query = f"UPDATE board SET mine_id = {counter} WHERE coordinates = '{cell}'"
         execute_query(sql_query)
         counter += 1
 
 def count_mines():
-    sql_query = "SELECT coordinates FROM map"
+    sql_query = "SELECT coordinates FROM board"
     cells = execute_query(sql_query)
     for cell in cells:
         check_surroundings(cell[0])
@@ -49,5 +49,5 @@ def check_surroundings(cell):
                 count += 1
     session['mine_counts'][cell] = count
     session.modified = True
-    sql_query = f"UPDATE map SET surr_mines = {count} WHERE coordinates = '{cell}'"
+    sql_query = f"UPDATE board SET surr_mines = {count} WHERE coordinates = '{cell}'"
     execute_query(sql_query)
