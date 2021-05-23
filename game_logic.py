@@ -3,7 +3,7 @@ import string
 from crud import *
 
 def reset_board():
-    sql_query = "UPDATE board SET mine_id = NULL, guessed = NULL, surr_mines = NULL"
+    sql_query = "UPDATE board SET mine_id = NULL, guessed = False, surr_mines = NULL"
     execute_query(sql_query)
     sql_query = "DELETE FROM mines WHERE mine_id >= 1"
     execute_query(sql_query)
