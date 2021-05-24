@@ -25,7 +25,11 @@ def play():
     if request.method == 'POST':
         guess = request.form['guess']
         if guess == '' or guess[0] not in string.ascii_uppercase[0:10]:
-            return redirect('/')
+            return redirect('/')  
+        flagged = request.form.get('flagged')
+        safe_guess = check_guess(guess, flagged)
+        if not safe_guess:
+            session['hit_mine'] = True
     else:
         if session['num_mines'] <= 0:
             return redirect('/')
