@@ -22,6 +22,13 @@ def index():
 
 @app.route('/play', methods=['GET', 'POST'])
 def play():
+    if request.method == 'POST':
+        guess = request.form['guess']
+        if guess == '' or guess[0] not in string.ascii_uppercase[0:10]:
+            return redirect('/')
+    else:
+        if session['num_mines'] <= 0:
+            return redirect('/')
     page_title = f"Mines Remaining: {session['num_mines']}"
     return render_template("mines.html", page_title = page_title)
 
