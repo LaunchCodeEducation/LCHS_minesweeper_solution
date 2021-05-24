@@ -21,7 +21,9 @@
                         {% if cell|length == 1 %}
                             <td class="centered"><strong>{{cell}}</strong></td>
                         {% else %}
-                            <td class="empty"><button type="submit" name="guess" value="{{cell}}">{{cell}}</button></td>
+                            <td class="empty">
+                                <button type="submit" name="guess" value="{{cell}}">{{cell}}</button>
+                            </td>
                         {% endif %}
                     {% endfor %}
                 </tr>
