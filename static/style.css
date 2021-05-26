@@ -57,10 +57,6 @@ button.menu {
     text-align: center;
 }
 
-.error {
-    color: red;
-}
-
 table, th, td {
     border: 1px solid black;
     border-collapse: collapse;
@@ -106,13 +102,21 @@ th, td {
 }
 
 .win {
-    font-size: 72px;
+    font-size: 64pt;
     color: purple;
+    text-align: center;
 }
 
-.blast {
-    font-size: 72px;
+.lose {
+    font-size: 64pt;
     color: red;
+    text-align: center;
+}
+
+.mistake {
+    font-size: 48pt;
+    color: brown;
+    text-align: center;
 }
 
 .instructions {

@@ -20,6 +20,22 @@
                     {% for cell in row %}
                         {% if cell|length == 1 %}
                             <td class="centered"><strong>{{cell}}</strong></td>
+                        {% elif cell in session['flags'] %}
+                            <td class="flag">
+                                <button type="submit" name="guess" value="{{cell}}">{{cell}}</button>
+                            </td>
+                        {% elif cell in session['guesses'] %}
+                            <td class="miss">
+                                <strong>{{session['mine_counts'][cell]}}</strong>
+                            </td>
+                        {% elif cell in session['mines'] and session['hit_mine'] == True %}
+                            <td class="oops">
+                                <button type="submit" name="guess" value="{{cell}}" disabled>{{cell}}</button>
+                            </td>
+                        {% elif session['hit_mine'] %}
+                            <td class="empty">
+                                <button type="submit" name="guess" value="{{cell}}" disabled>{{cell}}</button>
+                            </td>
                         {% else %}
                             <td class="empty">
                                 <button type="submit" name="guess" value="{{cell}}">{{cell}}</button>
