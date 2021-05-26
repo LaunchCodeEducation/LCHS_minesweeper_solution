@@ -3,6 +3,13 @@
 {% block content %}
 <header class="centered">
     <button type="submit" form="game-board" class="menu" name="guess" value="">New Game</button>
+    {% if session['hit_mine'] %}
+        <p class="lose">KA-BOOM!!!</p>
+    {% elif session['num_mines'] == 0 and session['mines']|length == 0 %}
+        <p class="win">YOU WIN!!!!!</p>
+    {% elif session['num_mines'] == 0 %}
+        <p class="mistake">Oops! One or more of your flags is incorrect.</p>
+    {% endif %}
 </header>
 <section class="centered">
     <form id="game-board" action="/play" method="POST">
