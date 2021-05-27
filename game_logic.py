@@ -52,24 +52,22 @@ def place_mines(amount):
 def check_guess(guess, flag):
     safe_guess = True
     if flag:
-        sql_query = f"UPDATE mines SET guessed = True WHERE coordinates = '{guess}'"
-        execute_query(sql_query)
         session['flags'].append(guess)
         session['num_mines'] -= 1
         if guess in session['mines']:
             session['mines'].remove(guess)
             session.modified = True
     else:
-        sql_query = f"SELECT * FROM board WHERE coordinates = '{guess}' and mine_id IS NULL"
+        sql_query = f"SELECT * FROM board WHERE coordinates = '{guess}' AND mine_id IS NULL"
         no_mine = execute_query(sql_query)
         if no_mine:
             if guess in session['flags']:
                 session['flags'].remove(guess)
                 session['num_mines'] += 1
-            sql_query = f"UPDATE board SET guessed = True WHERE coordinates = '{guess}'"
-            execute_query(sql_query)
             session['guesses'].append(guess)
         else:
             safe_guess = False        
     session.modified = True
+    sql_query = f"UPDATE board SET guessed = True WHERE coordinates = '{guess}'"
+    execute_query(sql_query)
     return safe_guess
