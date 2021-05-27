@@ -31,7 +31,7 @@ def play():
         if not safe_guess:
             session['hit_mine'] = True
     else:
-        if session['num_mines'] <= 0:
+        if 'num_mines' not in session or session['num_mines'] <= 0:
             return redirect('/')
     page_title = f"Mines Remaining: {session['num_mines']}"
     return render_template("mines.html", page_title = page_title)
