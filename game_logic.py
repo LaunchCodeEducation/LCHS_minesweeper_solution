@@ -18,21 +18,21 @@ def reset_board():
         session['rows'] = make_rows()
 
 def make_columns():
-    numbers = ['']
-    for index in range(10):
-        numbers.append(index+1)
-    return numbers.copy()
+    headings = ['']
+    for label in range(10):
+        headings.append(label+1)
+    return headings.copy()
 
 def make_rows():
     rows = []
     for index in range(10):
         row = []
-        for number in range(11):
+        for column in range(11):
             letter = string.ascii_uppercase[index]
-            if number == 0:
+            if column == 0:
                 row.append(letter)
             else:
-                row.append(letter + str(number))
+                row.append(letter + str(column))
         rows.append(row)
     return rows.copy()
 
