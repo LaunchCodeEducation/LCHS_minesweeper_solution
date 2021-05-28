@@ -56,7 +56,6 @@ def check_guess(guess, flag):
         session['num_mines'] -= 1
         if guess in session['mines']:
             session['mines'].remove(guess)
-            session.modified = True
     else:
         sql_query = f"SELECT * FROM board WHERE coordinates = '{guess}' AND mine_id IS NULL"
         no_mine = execute_query(sql_query)
