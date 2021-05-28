@@ -19,12 +19,12 @@ def execute_query(query_string):
     db.close()
     return results
 
-def record_mines(coords):
+def record_mines(locations):
     counter = 1
-    for cell in coords:
-        sql_query = f"INSERT INTO mines (coordinates) VALUES ('{cell}')"
+    for location in locations:
+        sql_query = f"INSERT INTO mines (coordinates) VALUES ('{location}')"
         execute_query(sql_query)
-        sql_query = f"UPDATE board SET mine_id = {counter} WHERE coordinates = '{cell}'"
+        sql_query = f"UPDATE board SET mine_id = {counter} WHERE coordinates = '{location}'"
         execute_query(sql_query)
         counter += 1
 

@@ -2,19 +2,19 @@
 
 {% block content %}
 <header class="centered">
-    <button class="menu" form="game-board" name="guess" value="">New Game</button>
-    {% if session['num_mines'] == 0 and session['mines']|length == 0 %}
-        <h1 class="win">YOU WIN!!!!!</h1>
+    <button type="submit" form="game-board" class="menu" name="guess" value="">New Game</button>
+    {% if session['hit_mine'] %}
+        <p class="lose">KA-BOOM!!!</p>
+    {% elif session['num_mines'] == 0 and session['mines']|length == 0 %}
+        <p class="win">YOU WIN!!!!!</p>
     {% elif session['num_mines'] == 0 %}
-        <h2 class="error">Oops! One or more of your flags is incorrect.</h2>
-    {% elif session['hit_mine'] %}
-        <h1 class="blast">KA-BOOM!!!</h1>
+        <p class="mistake">Oops! One or more of your flags is incorrect.</p>
     {% endif %}
 </header>
 <section class="centered">
     <form id="game-board" action="/play" method="POST">
         <section class="centered">
-            <label><input type="checkbox" name="flagged"/>Flag Mine</label>
+            <label><input type="checkbox" name="flagged" /> Flag Mine</label>
         </section>
         <table>
             <tr>
@@ -27,17 +27,25 @@
                     {% for cell in row %}
                         {% if cell|length == 1 %}
                             <td class="centered"><strong>{{cell}}</strong></td>
-                        {% elif cell in session['guesses'] %}
-                            <td class="miss"><h3>{{session['mine_counts'][cell]}}</h3></td>
-                        {% elif session['hit_mine'] and cell in session['mines'] %}
-                            <td class="oops"><button type="submit" value="{{cell}}" name="guess" disabled>{{cell}}</button></td>
                         {% elif cell in session['flags'] %}
-                            <td class="flag"><button type="submit" value="{{cell}}" name="guess">{{cell}}</button></td>
+                            <td class="flag">
+                                <button type="submit" name="guess" value="{{cell}}">{{cell}}</button>
+                            </td>
+                        {% elif cell in session['guesses'] %}
+                            <td class="miss">
+                                <strong>{{session['mine_counts'][cell]}}</strong>
+                            </td>
+                        {% elif cell in session['mines'] and session['hit_mine'] == True %}
+                            <td class="oops">
+                                <button type="submit" name="guess" value="{{cell}}" disabled>{{cell}}</button>
+                            </td>
                         {% elif session['hit_mine'] %}
-                            <td class="empty"><button type="submit" value="{{cell}}" name="guess" disabled>{{cell}}</button></td>
+                            <td class="empty">
+                                <button type="submit" name="guess" value="{{cell}}" disabled>{{cell}}</button>
+                            </td>
                         {% else %}
                             <td class="empty">
-                                <button type="submit" value="{{cell}}" name="guess">{{cell}}</button>
+                                <button type="submit" name="guess" value="{{cell}}">{{cell}}</button>
                             </td>
                         {% endif %}
                     {% endfor %}

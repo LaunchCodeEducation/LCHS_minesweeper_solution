@@ -16,10 +16,9 @@ h2 {
 
 form {
     display: inline-block;
-    margin: 10px;
+    margin: 5px;
     padding: 10px;
     text-align: left;
-    /* min-width: 40%; */
 }
 
 form.menu {
@@ -44,27 +43,24 @@ button {
     background-color: blue;
     font-size: larger;
     border-radius: 100%;
-    margin: 5px;
+    margin: 4px;
 }
 
 button.menu {
     background-color: orange;
     border-radius: 4%;
     color: black;
+    margin: 4px;
 }
 
 .centered {
     text-align: center;
 }
 
-.error {
-    color: red;
-}
-
 table, th, td {
     border: 1px solid black;
     border-collapse: collapse;
-    padding: 10px;
+    padding: 7px;
     margin: 5px;
 }
 
@@ -77,6 +73,11 @@ table {
 th, td {
     min-width: 55px;
     table-layout: fixed;
+    text-align: center;
+}
+
+tr {
+    line-height: 2.5vw;
 }
 
 .empty {
@@ -105,19 +106,34 @@ th, td {
 }
 
 .win {
-    font-size: 72px;
+    font-size: 4vw;
     color: purple;
+    text-align: center;
+    text-align: center;
+    font-weight: bold;
+    margin: 5px;
 }
 
-.blast {
-    font-size: 72px;
+.lose {
+    font-size: 4vw;
     color: red;
+    text-align: center;
+    font-weight: bold;
+    margin: 5px;
+}
+
+.mistake {
+    font-size: 3vw;
+    color: brown;
+    text-align: center;
+    font-weight: bold;
+    margin: 5px;
 }
 
 .instructions {
     background-color: beige;
     height: 400px;
     margin: 10px;
-    border: 1pt solid green;
+    border: 1pt solid gray;
     border-radius: 4%;
 }
