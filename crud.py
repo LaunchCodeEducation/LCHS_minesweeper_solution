@@ -25,20 +25,21 @@ def record_mines(coords):
 def count_mines():
     pass
 
-def check_surroundings(cell):
+def check_surroundings(location):
     count = 0
     rows = 'XABCDEFGHIJY'
-    row = rows.find(cell[0])
-    column = int(cell[1:])
-    for check_row in rows[row-1:row+2]:
-        for col_change in range(-1, 2):
-            check_column = column + col_change
-            location = check_row + str(check_column)
-            sql_query = f"SELECT mine_id FROM mines WHERE coordinates = '{location}'"
-            mined = execute_query(sql_query)
-            if mined and location != cell:
-                count += 1
-    session['mine_counts'][cell] = count
-    session.modified = True
-    sql_query = f"UPDATE board SET surr_mines = {count} WHERE coordinates = '{cell}'"
-    execute_query(sql_query)
+    row = rows.find(location[0])
+    column = int(location[1:])
+    if 0 < row < 11 and 0 < column < 11:
+        for current_row in rows[row-1:row+2]:
+            for col_change in [-1, 0, 1]:
+                current_column = column + col_change
+                neighbor = current_row + str(current_column)
+                sql_query = f"SELECT mine_id FROM mines WHERE coordinates = '{neighbor}'"
+                mined = execute_query(sql_query)
+                if mined and neighbor != location:
+                    count += 1
+        session['mine_counts'][location] = count
+        session.modified = True
+        sql_query = f"UPDATE board SET surr_mines = {count} WHERE coordinates = '{location}'"
+        execute_query(sql_query)
