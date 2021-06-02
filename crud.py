@@ -40,10 +40,10 @@ def check_surroundings(location):
     row = rows.find(location[0])
     column = int(location[1:])
     if 0 < row < 11 and 0 < column < 11:
-        for check_row in rows[row-1:row+2]:
-            for col_change in range(-1, 2):
-                check_column = column + col_change
-                neighbor = check_row + str(check_column)
+        for current_row in rows[row-1:row+2]:
+            for col_change in [-1, 0, 1]:
+                current_column = column + col_change
+                neighbor = current_row + str(current_column)
                 sql_query = f"SELECT mine_id FROM mines WHERE coordinates = '{neighbor}'"
                 mined = execute_query(sql_query)
                 if mined and neighbor != location:
