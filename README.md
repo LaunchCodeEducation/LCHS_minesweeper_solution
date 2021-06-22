@@ -20,7 +20,7 @@ py -3 -m venv game-env
 pip install Flask
 ```
 
-## Database setup
+## Database Setup
 
 In the same directory, run the command `python3 db_setup.py`. This will create the `game.db` database and add the required tables.
 
