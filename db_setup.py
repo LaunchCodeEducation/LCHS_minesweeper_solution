@@ -1,6 +1,6 @@
 import sqlite3
 
-# Initialise the database ane cursor objects here:
+# Initialise the database and cursor objects here:
 
 
 # Write SQL queries to create the 'mines' and 'board' tables:
