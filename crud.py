@@ -19,7 +19,7 @@ def execute_query(query_string):
     db.close()
     return results
 
-def record_mines(coords):
+def record_mines(locations):
     pass
 
 def count_mines():
