@@ -1,5 +1,5 @@
 # LCHS_minesweeper
-This starter code corresponds to the text and videos in the **Build a Minesweeper Game** chapter from the [LCHS textbook](https://education.launchcode.org/lchs/index.html).
+This starter code corresponds to the text and videos in the **Build a Minesweeper Game** chapter from the [LCHS textbook](https://education.launchcode.org/lchs/index.html). To view the solution, switch to the `solution` branch of this repository.
 
 ## Flask Setup
 After cloning this repo, users will need to create a virtual environment, activate it, and then install Flask. Use a command line interface to navigate into the project folder,
