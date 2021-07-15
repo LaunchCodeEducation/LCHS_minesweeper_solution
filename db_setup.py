@@ -16,7 +16,7 @@ cursor.execute(sql_query)
 sql_query = """
     CREATE TABLE IF NOT EXISTS board 
     (cell_id INTEGER PRIMARY KEY, coordinates TEXT NOT NULL,
-    surr_mines INT, guessed TEXT, mine_id INT)
+    surr_mines INT, guessed BOOL, mine_id INT)
     """
 
 cursor.execute(sql_query)
